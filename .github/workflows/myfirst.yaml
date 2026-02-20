@@ -11,4 +11,9 @@ jobs:
         - name: welcome message
           run: echo "hello welcome to my first job"
         - name: list files
-          run: ls      
+          run: ls 
+        - name: multiline commands
+          run: |
+            echo "hello"
+            ls -lrta
+            cat README.md       
