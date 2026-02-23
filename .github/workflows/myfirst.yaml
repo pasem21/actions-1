@@ -9,12 +9,21 @@ jobs:
         steps:
         - name: checkout
           uses: actions/checkout@v4    
-        - name: welcome message
-          run: echo "hello welcome to my first job"
-        - name: list files
-          run: ls 
-        - name: multiline commands
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v6.0.0
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ap-south-1
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v2
+        - name: docker build tag and push
+          env: 
+            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            ECR_REPOSITORY: demo-repo
+            IMAGE_TAG: latest
           run: |
-            echo "hello"
-            ls -lrta
-            cat README.md       
+            docker build -t $ECR_REGISTRY/$ECR_REPOSITORY/$IMAGE_TAG .
+            docker push $ECR_REGISTRY/$ECR_REPOSITORY/$IMAGE_TAG 
+
