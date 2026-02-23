@@ -9,6 +9,9 @@ jobs:
         - name: checkout
           uses: actions/checkout@v4
 
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3  
+
         - name: configure aws creds
           uses: aws-actions/configure-aws-credentials@v6.0.0
           with:
@@ -19,9 +22,6 @@ jobs:
         - name: Login to Amazon ECR
           id: login-ecr
           uses: aws-actions/amazon-ecr-login@v2
-
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v3
           
         - name: Build and Push Docker Image
           uses: docker/build-push-action@v5
