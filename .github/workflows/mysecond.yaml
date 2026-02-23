@@ -4,7 +4,7 @@ on: push
 
 jobs:
     first_job:
-        runs-on: self-hosted
+        runs-on: hosted-mine
         steps: 
         - name: checkout
           uses: actions/checkout@v4
